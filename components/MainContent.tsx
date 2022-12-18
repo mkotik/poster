@@ -15,7 +15,7 @@ const MainContent: React.FC = () => {
       <div>
         <div className="w-[380px]  aspect-[24/36] ">
           <Image
-            src={"/../public/poster1.jpg"}
+            src={"/poster1.jpg"}
             className="w-full h-full"
             width={0}
             height={0}
