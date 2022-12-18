@@ -19,6 +19,7 @@ const MainContent: React.FC = () => {
             className="w-full h-full"
             width={1000}
             height={1000}
+            loading={"eager"}
             alt="React Developer Roadmap Image"
           />
         </div>
