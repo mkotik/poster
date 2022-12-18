@@ -14,11 +14,11 @@ const MainContent: React.FC = () => {
     <div className="flex justify-center items-center">
       <div>
         <div className="w-[380px]  aspect-[24/36] ">
-          <img
+          <Image
             src={"/poster1.jpg"}
             className="w-full h-full"
-            width={0}
-            height={0}
+            width={1000}
+            height={1000}
             alt="React Developer Roadmap Image"
           />
         </div>
