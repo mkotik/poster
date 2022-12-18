@@ -14,7 +14,7 @@ const MainContent: React.FC = () => {
     <div className="flex justify-center items-center">
       <div>
         <div className="w-[380px]  aspect-[24/36] ">
-          <Image
+          <img
             src={"/poster1.jpg"}
             className="w-full h-full"
             width={0}
