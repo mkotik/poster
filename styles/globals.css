@@ -75,3 +75,11 @@ a {
 main {
   height: 100vh;
 }
+
+input,
+select {
+  border: 1px solid rgb(197, 197, 197);
+  line-height: 2;
+  border-radius: 4px;
+  padding: 0px 10px;
+}

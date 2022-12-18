@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className=" bg-gray-700 w-full h-14 flex justify-start items-center p-5">
+    <div className=" bg-gray-700 w-full h-14 flex justify-start items-center p-5 absolute bottom-0 left-0">
       <Image src={logo} alt="github logo" className="w-5" />
       <Link
         target="_blank"

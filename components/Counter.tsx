@@ -1,18 +1,17 @@
-import { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-const Counter = () => {
-  const [count, setCount] = useState<number>(1);
+interface CounterProps {
+  count: number;
+  setCount: Dispatch<SetStateAction<number>>;
+}
 
+const Counter: React.FC<CounterProps> = ({ count, setCount }) => {
   const increment = () => {
-    if (count < 999) {
-      setCount((prevState) => prevState + 1);
-    }
+    if (count < 999) setCount(() => count + 1);
   };
 
   const decrement = () => {
-    if (count > 0) {
-      setCount((prevState) => prevState - 1);
-    }
+    if (count > 1) setCount(() => count - 1);
   };
   return (
     <div className="flex">

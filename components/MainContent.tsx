@@ -1,12 +1,19 @@
 import Image from "next/image";
 import Counter from "./Counter";
-import Button from "next/button";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
-const MainContent = () => {
+const MainContent: React.FC = () => {
+  const [count, setCount] = useState<number>(1);
+  const router = useRouter();
+
+  const handleNext = () => {
+    router.push("/checkout-information");
+  };
   return (
     <div className="flex justify-center items-center">
       <div>
-        <div className=" bg-red-400 w-[380px]  aspect-[24/36] ">
+        <div className="w-[380px]  aspect-[24/36] ">
           <Image
             src={"/../public/poster1.jpg"}
             className="w-full h-full"
@@ -16,9 +23,14 @@ const MainContent = () => {
           />
         </div>
         <div className="flex justify-center my-3">
-          <Counter />
-          <button className="transition rounded bg-green-500 px-3 ml-5 w-56 hover:bg-green-600 active:bg-green-700 ">
-            <p className="animate-pulse">Buy Now</p>
+          <Counter count={count} setCount={setCount} />
+          <button
+            onClick={handleNext}
+            className="transition rounded bg-green-500 px-3 ml-5 w-56 hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
+          >
+            <p className="animate-pulse">{`$${(count * 18.99).toFixed(
+              2
+            )} - Buy Now`}</p>
           </button>
         </div>
       </div>
