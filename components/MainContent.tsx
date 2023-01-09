@@ -11,14 +11,14 @@ const MainContent: React.FC = () => {
     router.push("/checkout-information");
   };
   return (
-    <div className="flex justify-center items-center">
+    <div className="h-[86vh] py-2 flex justify-center items-center">
       <div>
-        <div className="w-[380px]  aspect-[24/36] ">
+        <div className="flex justify-center min-h-full">
           <Image
             src={"/poster1.jpg"}
-            className="w-full h-full"
-            width={1000}
-            height={1000}
+            className="h-full"
+            width={350}
+            height={350}
             loading={"eager"}
             alt="React Developer Roadmap Image"
           />
@@ -27,7 +27,7 @@ const MainContent: React.FC = () => {
           <Counter count={count} setCount={setCount} />
           <button
             onClick={handleNext}
-            className="transition rounded bg-green-500 px-3 ml-5 w-56 hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
+            className="w-56 px-3 ml-5 transition bg-green-500 rounded hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
           >
             <p className="animate-pulse">{`$${(count * 18.99).toFixed(
               2

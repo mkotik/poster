@@ -1,8 +1,8 @@
 const Header = () => {
   return (
-    <div className="font-serif flex justify-center items-center text-xl h-16">
+    <div className="h-[8vh] flex  items-center justify-center font-serif text-xl   ">
       <h1 className="text-3xl text-center text-slate-700">
-        The <span className="animate-pulse text-black">React Developer</span>{" "}
+        The <span className="text-black animate-pulse">React Developer</span>{" "}
         Roadmap Poster
       </h1>
     </div>
