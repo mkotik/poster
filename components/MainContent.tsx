@@ -11,28 +11,31 @@ const MainContent: React.FC = () => {
     router.push("/checkout-information");
   };
   return (
-    <div className="h-[86vh] py-2 flex justify-center items-center">
+    <div className="flex items-center justify-center py-20">
       <div>
         <div className="flex justify-center min-h-full">
           <Image
             src={"/poster1.jpg"}
             className="h-full"
-            width={350}
-            height={350}
+            width={650}
+            height={650}
             loading={"eager"}
             alt="React Developer Roadmap Image"
           />
         </div>
-        <div className="flex justify-center my-3">
-          <Counter count={count} setCount={setCount} />
-          <button
-            onClick={handleNext}
-            className="w-56 px-3 ml-5 transition bg-green-500 rounded hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
-          >
-            <p className="animate-pulse">{`$${(count * 18.99).toFixed(
-              2
-            )} - Buy Now`}</p>
-          </button>
+        <div className="flex flex-col items-center pt-3">
+          <p className="font-extralight">24" x 36" Poster</p>
+          <div className="flex justify-center mt-5">
+            <Counter count={count} setCount={setCount} />
+            <button
+              onClick={handleNext}
+              className="w-56 px-3 ml-5 transition bg-green-500 rounded hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
+            >
+              <p className="animate-pulse">{`$${(count * 18.99).toFixed(
+                2
+              )} - Buy Now`}</p>
+            </button>
+          </div>
         </div>
       </div>
     </div>
