@@ -8,7 +8,10 @@ const MainContent: React.FC = () => {
   const router = useRouter();
 
   const handleNext = () => {
-    router.push("/checkout-information");
+    router.push({
+      pathname: "/checkout-information",
+      query: { count },
+    });
   };
   return (
     <div className="flex items-center justify-center py-20">

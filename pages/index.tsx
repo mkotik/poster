@@ -26,7 +26,3 @@ export default function Home() {
     </>
   );
 }
-
-// pink #f8bed4
-
-//gree #62bfa6

@@ -18,15 +18,15 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
       </label>
       <label className="flex flex-col mb-4">
         Shipping Address
-        <div className="mb-2 flex justify-between">
-          <input placeholder="First Name" className="mr-1 flex-1" />
-          <input placeholder="Last Name" className="ml-1 flex-1" />
+        <div className="flex justify-between mb-2">
+          <input placeholder="First Name" className="flex-1 mr-1" />
+          <input placeholder="Last Name" className="flex-1 ml-1" />
         </div>
         <input placeholder="Address" className="mb-2" />
         <input placeholder="Address, suite, etc. (optional)" className="mb-2" />
         <input placeholder="City" className="mb-2 border" />
         <div className="flex">
-          <select className="mr-1 flex-1">
+          <select className="flex-1 mr-1">
             <option key={1} value={1}>
               test
             </option>
@@ -34,7 +34,7 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
               test
             </option>
           </select>
-          <select className="mx-1 flex-1">
+          <select className="flex-1 mx-1">
             <option key={1} value={1}>
               test
             </option>
@@ -42,8 +42,9 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
               test
             </option>
           </select>
-          <input placeholder="ZIP Code" className="ml-1 flex-1" />
+          <input placeholder="ZIP Code" className="flex-1 ml-1" />
         </div>
+        {/* <input placeholder="Phone Number (optional)" className="mt-2 mb-2" /> */}
       </label>
       <label className="flex flex-col mb-4">
         Special Notes:
@@ -52,11 +53,11 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
       <div className="flex justify-between">
         <button
           onClick={handleBack}
-          className="hover:bg-slate-300 transition px-3 py-2 rounded"
+          className="px-3 py-2 transition rounded hover:bg-slate-300"
         >
           Back
         </button>
-        <button className="bg-green-300 px-3 py-2 rounded" type="submit">
+        <button className="px-3 py-2 bg-green-300 rounded" type="submit">
           Continue to Shipping
         </button>
       </div>
