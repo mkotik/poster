@@ -57,7 +57,10 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
         >
           Back
         </button>
-        <button className="px-3 py-2 bg-green-300 rounded" type="submit">
+        <button
+          className="px-3 py-2 transition bg-green-300 rounded hover:bg-green-400"
+          type="submit"
+        >
           Continue to Shipping
         </button>
       </div>
