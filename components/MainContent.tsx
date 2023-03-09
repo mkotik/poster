@@ -27,7 +27,7 @@ const MainContent: React.FC = () => {
           />
         </div>
         <div className="flex flex-col items-center pt-3">
-          <p className="font-extralight">24" x 36" Poster</p>
+          <p className="font-extralight">24&quot x 36&quot Poster</p>
           <div className="flex justify-center mt-5">
             <Counter count={count} setCount={setCount} />
             <button

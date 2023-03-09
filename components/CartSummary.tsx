@@ -18,7 +18,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       </h2>
       <div className="border-b-2 border-gray-500 ">
         <div className="flex items-center justify-between h-12 px-2 border-b border-gray-200 ">
-          <p>24" x 36" Poster</p>
+          <p>24&quot x 36&quot Poster</p>
           <Counter count={count} setCount={setCount} />
         </div>
       </div>
