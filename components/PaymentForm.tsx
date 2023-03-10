@@ -18,7 +18,7 @@ const PaymentForm: React.FC<any> = () => {
   const options = { clientSecret };
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/paymentIntent")
+      .get(`${window.location.origin}/api/paymentIntent`)
       .then((res) => {
         setClientSecret(res.data.client_secret);
       })
