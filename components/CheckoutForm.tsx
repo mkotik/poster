@@ -4,12 +4,14 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
   const router = useRouter();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("here");
+    router.push("/checkout-payment");
   };
 
-  const handleBack = () => {
+  const handleBack = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     router.push("/");
   };
+
   return (
     <form onSubmit={handleSubmit} className={className}>
       <label className="flex flex-col mb-4">
@@ -44,7 +46,7 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
           </select>
           <input placeholder="ZIP Code" className="flex-1 ml-1" />
         </div>
-        {/* <input placeholder="Phone Number (optional)" className="mt-2 mb-2" /> */}
+        <input placeholder="Phone Number (optional)" className="mt-2 mb-2" />
       </label>
       <label className="flex flex-col mb-4">
         Special Notes:
