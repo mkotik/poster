@@ -1,11 +1,12 @@
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 import { useState } from "react";
 import Footer from "../components/Footer";
 import CheckoutForm from "../components/CheckoutForm";
 import CartSummary from "../components/CartSummary";
 import Head from "next/head";
 
-const Order: React.FC = () => {
+const Order: NextPage = () => {
   const router = useRouter();
   const [count, setCount] = useState<number>(Number(router.query.count) || 1);
 

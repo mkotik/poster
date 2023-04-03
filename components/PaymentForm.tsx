@@ -7,23 +7,16 @@ import axios from "axios";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
-const PaymentForm: React.FC<any> = () => {
-  const [clientSecret, setClientSecret] = useState(undefined);
+const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
   const router = useRouter();
   const handleSubmit = () => null;
   const handleBack = () => {
     router.push("/checkout-information");
   };
 
-  const options = { clientSecret };
-  useEffect(() => {
-    axios
-      .get(`${window.location.origin}/api/paymentIntent`)
-      .then((res) => {
-        setClientSecret(res.data.client_secret);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const options = {
+    clientSecret,
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -31,20 +24,10 @@ const PaymentForm: React.FC<any> = () => {
         Contact Information
         <input placeholder="Email" />
       </label>
-      {options.clientSecret && (
-        <Elements stripe={stripePromise} options={options}>
-          <PaymentElement />
-        </Elements>
-      )}
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          console.log(process.env.NEXT_PUBLIC_NAME);
-        }}
-      >
-        here
-      </button>
-      <div className="flex justify-between">
+      <Elements stripe={stripePromise} options={options}>
+        <PaymentElement />
+      </Elements>
+      <div className="flex justify-between mt-6">
         <button
           onClick={handleBack}
           className="px-3 py-2 transition rounded hover:bg-slate-300"

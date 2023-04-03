@@ -32,7 +32,7 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
             <option key={1} value={1}>
               test
             </option>
-            <option key={1} value={1}>
+            <option key={2} value={1}>
               test
             </option>
           </select>
@@ -40,7 +40,7 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
             <option key={1} value={1}>
               test
             </option>
-            <option key={1} value={1}>
+            <option key={2} value={1}>
               test
             </option>
           </select>

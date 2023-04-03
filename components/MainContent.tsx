@@ -15,17 +15,16 @@ const MainContent: React.FC = () => {
   };
   return (
     <div className="flex items-center justify-center py-20">
+      <p></p>
       <div>
-        <div className="flex justify-center min-h-full">
-          <Image
-            src={"/poster1.jpg"}
-            className="h-full"
-            width={650}
-            height={650}
-            loading={"eager"}
-            alt="React Developer Roadmap Image"
-          />
-        </div>
+        <Image
+          src="/poster1.jpg"
+          width={650}
+          height={650}
+          loading="eager"
+          alt="React Developer Roadmap Image"
+          priority
+        />
         <div className="flex flex-col items-center pt-3">
           <p className="font-extralight">24&quot; x 36&quot; Poster</p>
           <div className="flex justify-center mt-5">
