@@ -12,6 +12,7 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
   // fix UI on mobile
   // watermark picture
   // Loader for payment
+  //favicon
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
