@@ -2,15 +2,16 @@ import Image from "next/image";
 import Counter from "./Counter";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const MainContent: React.FC = () => {
-  const [count, setCount] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
   const router = useRouter();
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    await axios.post("/api/createSession", { quantity });
     router.push({
       pathname: "/checkout-information",
-      query: { count },
     });
   };
   return (
@@ -28,12 +29,12 @@ const MainContent: React.FC = () => {
         <div className="flex flex-col items-center pt-3">
           <p className="font-extralight">24&quot; x 36&quot; Poster</p>
           <div className="flex justify-center mt-5">
-            <Counter count={count} setCount={setCount} />
+            <Counter count={quantity} setCount={setQuantity} />
             <button
               onClick={handleNext}
               className="w-56 px-3 ml-5 transition bg-green-500 rounded hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
             >
-              <p className="animate-pulse">{`$${(count * 18.99).toFixed(
+              <p className="animate-pulse">{`$${(quantity * 18.99).toFixed(
                 2
               )} - Buy Now`}</p>
             </button>

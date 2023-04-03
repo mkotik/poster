@@ -1,15 +1,20 @@
-import { useRouter } from "next/router";
 import { NextPage } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Footer from "../components/Footer";
 import CheckoutForm from "../components/CheckoutForm";
 import CartSummary from "../components/CartSummary";
 import Head from "next/head";
+import Cookies from "js-cookie";
 
 const Order: NextPage = () => {
-  const router = useRouter();
-  const [count, setCount] = useState<number>(Number(router.query.count) || 1);
+  const [quantity, setQuantity] = useState<number>(0);
 
+  useEffect(() => {
+    if (Cookies.get("reactRoadMapCart")) {
+      const cartSummary = JSON.parse(Cookies.get("reactRoadMapCart")!);
+      setQuantity(cartSummary.quantity);
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -23,7 +28,7 @@ const Order: NextPage = () => {
       </Head>
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100">
         <div className="pb-14">
-          <CartSummary className="mb-2" count={count} setCount={setCount} />
+          <CartSummary className="mb-2" quantity={quantity} />
           <CheckoutForm />
         </div>
         <Footer />

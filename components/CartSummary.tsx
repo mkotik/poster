@@ -1,16 +1,11 @@
 import Counter from "./Counter";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 
 interface CartSummaryProps {
   className?: string;
-  count: number;
-  setCount: Dispatch<SetStateAction<number>>;
+  quantity: number;
 }
-const CartSummary: React.FC<CartSummaryProps> = ({
-  className,
-  count,
-  setCount,
-}) => {
+const CartSummary: React.FC<CartSummaryProps> = ({ className, quantity }) => {
   return (
     <div className={className}>
       <h2 className="flex items-center h-8 px-2 mt-2 border-b-2 border-gray-500">
@@ -19,7 +14,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       <div className="border-b-2 border-gray-500 ">
         <div className="flex items-center justify-between h-12 px-2 border-b border-gray-200 ">
           <p>24&quot; x 36&quot; Poster</p>
-          <Counter count={count} setCount={setCount} />
+          <Counter count={quantity} />
         </div>
       </div>
       <div className="border-b-2 border-gray-500 ">

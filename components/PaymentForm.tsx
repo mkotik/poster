@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -7,7 +7,11 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
   // Style card input better https://stripe.com/docs/payments/quickstart?client=next&lang=node
   // pass in correct data to paymentIntent
   // handle post payment events
-  //error handling and validation
+  // error handling and validation
+  // get this to work in prod
+  // fix UI on mobile
+  // watermark picture
+  // Loader for payment
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
