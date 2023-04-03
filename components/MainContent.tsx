@@ -3,6 +3,7 @@ import Counter from "./Counter";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { getPriceBreakdown } from "../utils/utils";
 
 const MainContent: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
@@ -34,9 +35,9 @@ const MainContent: React.FC = () => {
               onClick={handleNext}
               className="w-56 px-3 ml-5 transition bg-green-500 rounded hover:bg-green-600 hover:text-slate-100 active:bg-green-700 "
             >
-              <p className="animate-pulse">{`$${(quantity * 18.99).toFixed(
-                2
-              )} - Buy Now`}</p>
+              <p className="animate-pulse">{`$${getPriceBreakdown(
+                quantity
+              ).subTotal.toFixed(2)} - Buy Now`}</p>
             </button>
           </div>
         </div>

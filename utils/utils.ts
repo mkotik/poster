@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import config from "../config";
 
 export const readJWT = (token: string) => {
   try {
@@ -59,4 +60,15 @@ export const formatAddress = ({
     (part) => part
   );
   return addressParts.join(", ");
+};
+
+export const getPriceBreakdown = (quantity: number) => {
+  const subTotal = quantity * config.price;
+  const taxes = subTotal * config.taxRate;
+  const total = subTotal + taxes + config.shipping;
+  return {
+    subTotal,
+    taxes,
+    total,
+  };
 };

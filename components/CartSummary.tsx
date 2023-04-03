@@ -1,15 +1,14 @@
 import Counter from "./Counter";
 import React from "react";
 import config from "../config";
+import { getPriceBreakdown } from "../utils/utils";
 
 interface CartSummaryProps {
   className?: string;
   quantity: number;
 }
 const CartSummary: React.FC<CartSummaryProps> = ({ className, quantity }) => {
-  const subTotal = quantity * config.price;
-  const taxes = subTotal * config.taxRate;
-  const total = subTotal + taxes + config.shipping;
+  const { subTotal, taxes, total } = getPriceBreakdown(quantity);
   return (
     <div className={className}>
       <h2 className="flex items-center h-8 px-2 mt-2 border-b-2 border-gray-500">

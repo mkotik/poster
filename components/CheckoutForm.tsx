@@ -101,7 +101,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
         <div className="flex">
           <select
             className="flex-1 mr-1"
-            defaultValue=""
             onChange={handleChange}
             name="country"
             value={formData.country}
@@ -115,7 +114,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
           </select>
           <select
             className="flex-1 mx-1"
-            defaultValue=""
             onChange={handleChange}
             name="state"
             value={formData.state}

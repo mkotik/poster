@@ -1,6 +1,5 @@
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { Space_Grotesk } from "next/font/google";
-import { useRouter } from "next/router";
 import { readJWT } from "../utils/utils";
 
 interface CustomError {

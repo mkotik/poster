@@ -1,20 +1,11 @@
-import { NextPage } from "next";
-import { useState, useEffect } from "react";
+import { GetServerSidePropsContext, NextPage } from "next";
 import Footer from "../components/Footer";
 import CheckoutForm from "../components/CheckoutForm";
 import CartSummary from "../components/CartSummary";
 import Head from "next/head";
-import Cookies from "js-cookie";
+import { redirectError } from "../utils/utils";
 
-const Order: NextPage = () => {
-  const [quantity, setQuantity] = useState<number>(0);
-
-  useEffect(() => {
-    if (Cookies.get("reactRoadMapCart")) {
-      const sessionData = JSON.parse(Cookies.get("reactRoadMapCart")!);
-      setQuantity(sessionData.quantity);
-    }
-  }, []);
+const Order: NextPage<{ quantity: number }> = ({ quantity }) => {
   return (
     <>
       <Head>
@@ -35,6 +26,21 @@ const Order: NextPage = () => {
       </main>
     </>
   );
+};
+
+export const getServerSideProps = (context: GetServerSidePropsContext) => {
+  try {
+    if (!context.req.cookies.reactRoadMap)
+      throw Error("cookie not set on /checkout-information");
+    const cookie = JSON.parse(context.req.cookies.reactRoadMap);
+    return {
+      props: {
+        quantity: cookie.quantity,
+      },
+    };
+  } catch (err) {
+    return redirectError(err);
+  }
 };
 
 export default Order;

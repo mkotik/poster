@@ -2,7 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { SessionData } from "../types";
-import { formatAddress } from "../utils/utils";
 
 type PaymentFormProps = {
   clientSecret: string;
@@ -31,12 +30,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
-  console.log(sessionData);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(stripe);
-    console.log(elements);
     if (!stripe || !elements) return;
 
     try {
