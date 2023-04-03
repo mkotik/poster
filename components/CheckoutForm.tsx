@@ -1,9 +1,36 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
+import states from "../utils/states";
+import axios from "axios";
+import { FormData } from "../types";
 
-const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
+type CheckoutFormProps = {
+  className?: string;
+  quantity: number;
+};
+
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
+  const [formData, setFormData] = useState<FormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address1: "",
+    address2: "",
+    city: "",
+    zipCode: "",
+    phoneNumber: "",
+    specialNotes: "",
+    country: "",
+    state: "",
+  });
+
   const router = useRouter();
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    await axios.post("/api/setCookie", {
+      ...formData,
+      quantity,
+    });
     router.push("/checkout-payment");
   };
 
@@ -12,45 +39,122 @@ const CheckoutForm: React.FC<{ className?: string }> = ({ className }) => {
     router.push("/");
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
+  };
+
   return (
     <form onSubmit={handleSubmit} className={className}>
       <label className="flex flex-col mb-4">
         Contact Information
-        <input placeholder="Email" />
+        <input
+          placeholder="Email"
+          name="email"
+          onChange={handleChange}
+          value={formData.email}
+        />
       </label>
       <label className="flex flex-col mb-4">
         Shipping Address
         <div className="flex justify-between mb-2">
-          <input placeholder="First Name" className="flex-1 mr-1" />
-          <input placeholder="Last Name" className="flex-1 ml-1" />
+          <input
+            placeholder="First Name"
+            className="flex-1 mr-1"
+            name="firstName"
+            onChange={handleChange}
+            value={formData.firstName}
+          />
+          <input
+            placeholder="Last Name"
+            className="flex-1 ml-1"
+            name="lastName"
+            onChange={handleChange}
+            value={formData.lastName}
+          />
         </div>
-        <input placeholder="Address" className="mb-2" />
-        <input placeholder="Address, suite, etc. (optional)" className="mb-2" />
-        <input placeholder="City" className="mb-2 border" />
+        <input
+          placeholder="Address"
+          className="mb-2"
+          name="address1"
+          value={formData.address1}
+          onChange={handleChange}
+        />
+        <input
+          placeholder="Address, suite, etc. (optional)"
+          className="mb-2"
+          name="address2"
+          value={formData.address2}
+          onChange={handleChange}
+        />
+        <input
+          placeholder="City"
+          className="mb-2 border"
+          name="city"
+          value={formData.city}
+          onChange={handleChange}
+        />
         <div className="flex">
-          <select className="flex-1 mr-1">
-            <option key={1} value={1}>
-              test
+          <select
+            className="flex-1 mr-1"
+            defaultValue=""
+            onChange={handleChange}
+            name="country"
+            value={formData.country}
+          >
+            <option value="" disabled>
+              -- Country --
             </option>
-            <option key={2} value={1}>
-              test
-            </option>
-          </select>
-          <select className="flex-1 mx-1">
-            <option key={1} value={1}>
-              test
-            </option>
-            <option key={2} value={1}>
-              test
+            <option key={1} value="US">
+              United States
             </option>
           </select>
-          <input placeholder="ZIP Code" className="flex-1 ml-1" />
+          <select
+            className="flex-1 mx-1"
+            defaultValue=""
+            onChange={handleChange}
+            name="state"
+            value={formData.state}
+          >
+            <option value="" disabled>
+              -- State --
+            </option>
+            {states.map((state) => {
+              return (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              );
+            })}
+          </select>
+          <input
+            placeholder="ZIP Code"
+            className="flex-1 ml-1"
+            name="zipCode"
+            value={formData.zipCode}
+            onChange={handleChange}
+          />
         </div>
-        <input placeholder="Phone Number (optional)" className="mt-2 mb-2" />
+        <input
+          placeholder="Phone Number (optional)"
+          className="mt-2 mb-2"
+          name="phoneNumber"
+          value={formData.phoneNumber}
+          onChange={handleChange}
+        />
       </label>
       <label className="flex flex-col mb-4">
         Special Notes:
-        <input placeholder="Notes (optional)" />
+        <input
+          placeholder="Notes (optional)"
+          name="specialNotes"
+          value={formData.specialNotes}
+          onChange={handleChange}
+        />
       </label>
       <div className="flex justify-between">
         <button

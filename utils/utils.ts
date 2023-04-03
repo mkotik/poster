@@ -39,3 +39,24 @@ export const redirectError = (payload?: any) => {
     },
   };
 };
+
+type AddressObject = {
+  street1: string;
+  street2: string;
+  city: string;
+  state: string;
+  postalCode: string;
+};
+
+export const formatAddress = ({
+  street1,
+  street2,
+  city,
+  state,
+  postalCode,
+}: AddressObject) => {
+  const addressParts = [street1, street2, city, state, postalCode].filter(
+    (part) => part
+  );
+  return addressParts.join(", ");
+};

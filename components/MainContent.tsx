@@ -9,7 +9,7 @@ const MainContent: React.FC = () => {
   const router = useRouter();
 
   const handleNext = async () => {
-    await axios.post("/api/cartSummaryCookie", { quantity });
+    await axios.post("/api/setCookie", { quantity });
     router.push({
       pathname: "/checkout-information",
     });

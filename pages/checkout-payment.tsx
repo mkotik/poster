@@ -3,16 +3,37 @@ import Footer from "../components/Footer";
 import PaymentForm from "../components/PaymentForm";
 import { NextPage } from "next";
 import CartSummary from "../components/CartSummary";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { redirectError } from "../utils/utils";
+import Cookies from "js-cookie";
+import { SessionData } from "../types";
 
 const Payment: NextPage<{ clientSecret: string }> = ({ clientSecret }) => {
-  const [count, setCount] = useState(0);
+  const [sessionData, setSessionData] = useState<SessionData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address1: "",
+    address2: "",
+    city: "",
+    zipCode: "",
+    phoneNumber: "",
+    specialNotes: "",
+    quantity: 0,
+    country: "",
+    state: "",
+  });
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
+  useEffect(() => {
+    if (Cookies.get("reactRoadMapCart")) {
+      const sessionData = JSON.parse(Cookies.get("reactRoadMapCart")!);
+      setSessionData(sessionData);
+    }
+  }, []);
   return (
     <>
       <Head>
@@ -26,12 +47,15 @@ const Payment: NextPage<{ clientSecret: string }> = ({ clientSecret }) => {
       </Head>
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100 ">
         <div className="pb-14">
-          <CartSummary className="mb-2" count={2} setCount={setCount} />
+          <CartSummary className="mb-2" quantity={sessionData.quantity} />
           <Elements
             stripe={stripePromise}
             options={{ clientSecret, loader: "always" }}
           >
-            <PaymentForm clientSecret={clientSecret} />
+            <PaymentForm
+              clientSecret={clientSecret}
+              sessionData={sessionData}
+            />
           </Elements>
         </div>
         <Footer />

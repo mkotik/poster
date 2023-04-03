@@ -11,8 +11,8 @@ const Order: NextPage = () => {
 
   useEffect(() => {
     if (Cookies.get("reactRoadMapCart")) {
-      const cartSummary = JSON.parse(Cookies.get("reactRoadMapCart")!);
-      setQuantity(cartSummary.quantity);
+      const sessionData = JSON.parse(Cookies.get("reactRoadMapCart")!);
+      setQuantity(sessionData.quantity);
     }
   }, []);
   return (
@@ -29,7 +29,7 @@ const Order: NextPage = () => {
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100">
         <div className="pb-14">
           <CartSummary className="mb-2" quantity={quantity} />
-          <CheckoutForm />
+          <CheckoutForm quantity={quantity} />
         </div>
         <Footer />
       </main>

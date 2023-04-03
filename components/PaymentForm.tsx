@@ -1,21 +1,37 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { SessionData } from "../types";
+import { formatAddress } from "../utils/utils";
 
-const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
-  //TODO
-  // Style card input better https://stripe.com/docs/payments/quickstart?client=next&lang=node
-  // pass in correct data to paymentIntent
-  // handle post payment events
-  // error handling and validation
-  // get this to work in prod
-  // fix UI on mobile
-  // watermark picture
-  // Loader for payment
-  //favicon
+type PaymentFormProps = {
+  clientSecret: string;
+  sessionData: SessionData;
+};
+
+const PaymentForm: React.FC<PaymentFormProps> = ({
+  clientSecret,
+  sessionData,
+}) => {
+  const {
+    address1,
+    address2,
+    city,
+    country,
+    email,
+    firstName,
+    lastName,
+    phoneNumber,
+    quantity,
+    specialNotes,
+    zipCode,
+    state,
+  } = sessionData;
+
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
+  console.log(sessionData);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -28,11 +44,37 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
         payment_method: {
           card: elements.getElement(CardElement)!,
           billing_details: {
-            name: "Jenny Rosenn",
+            address: {
+              city,
+              country,
+              line1: address1,
+              line2: address2,
+              postal_code: zipCode,
+              state,
+            },
+            email,
+            phone: phoneNumber,
+            name: `${firstName} ${lastName}`,
+          },
+          metadata: {
+            quantity,
+            specialNotes,
           },
         },
-        receipt_email: "mkotik97@gmail.com",
+        receipt_email: email,
         return_url: "http://localhost:3000/",
+        shipping: {
+          address: {
+            city,
+            country,
+            line1: address1,
+            line2: address2,
+            postal_code: zipCode,
+            state,
+          },
+          name: `${firstName} ${lastName}`,
+          phone: phoneNumber,
+        },
       });
       console.log(paymentIntent);
       if (!paymentIntent) throw Error("payment intent creation unsuccessful");
@@ -49,11 +91,6 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label className="flex flex-col mb-4">
-        Contact Information
-        <input placeholder="Email" />
-      </label>
-
       <CardElement />
       <div className="flex justify-between mt-6">
         <button
