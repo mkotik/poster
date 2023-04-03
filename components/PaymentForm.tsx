@@ -1,21 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { PaymentElement } from "@stripe/react-stripe-js";
-import axios from "axios";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
+  //TODO
+  // Style card input better https://stripe.com/docs/payments/quickstart?client=next&lang=node
+  // pass in correct data to paymentIntent
+  // handle post payment events
+  //error handling and validation
   const router = useRouter();
-  const handleSubmit = () => null;
-  const handleBack = () => {
-    router.push("/checkout-information");
-  };
+  const stripe = useStripe();
+  const elements = useElements();
 
-  const options = {
-    clientSecret,
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    console.log(stripe);
+    console.log(elements);
+    if (!stripe || !elements) return;
+
+    try {
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement)!,
+          billing_details: {
+            name: "Jenny Rosenn",
+          },
+        },
+        receipt_email: "mkotik97@gmail.com",
+        return_url: "http://localhost:3000/",
+      });
+      console.log(paymentIntent);
+      if (!paymentIntent) throw Error("payment intent creation unsuccessful");
+      // use webhook to handle post payment events https://stripe.com/docs/payments/quickstart?client=next&lang=node
+      // const res = await axios.post("/api/submitPayment", { paymentIntent });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleBack = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    router.push("/checkout-information");
   };
 
   return (
@@ -24,9 +48,8 @@ const PaymentForm: React.FC<{ clientSecret: string }> = ({ clientSecret }) => {
         Contact Information
         <input placeholder="Email" />
       </label>
-      <Elements stripe={stripePromise} options={options}>
-        <PaymentElement />
-      </Elements>
+
+      <CardElement />
       <div className="flex justify-between mt-6">
         <button
           onClick={handleBack}

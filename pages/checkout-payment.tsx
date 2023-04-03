@@ -5,10 +5,13 @@ import { NextPage } from "next";
 import CartSummary from "../components/CartSummary";
 import { useState } from "react";
 import axios from "axios";
-import { createJWT } from "../utils/utils";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { redirectError } from "../utils/utils";
 
 const Payment: NextPage<{ clientSecret: string }> = ({ clientSecret }) => {
   const [count, setCount] = useState(0);
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
   return (
     <>
@@ -24,7 +27,12 @@ const Payment: NextPage<{ clientSecret: string }> = ({ clientSecret }) => {
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100 ">
         <div className="pb-14">
           <CartSummary className="mb-2" count={2} setCount={setCount} />
-          <PaymentForm clientSecret={clientSecret} />
+          <Elements
+            stripe={stripePromise}
+            options={{ clientSecret, loader: "always" }}
+          >
+            <PaymentForm clientSecret={clientSecret} />
+          </Elements>
         </div>
         <Footer />
       </main>
@@ -44,15 +52,7 @@ export const getServerSideProps = async () => {
       },
     };
   } catch (error) {
-    const token = createJWT({
-      error,
-    });
-    return {
-      redirect: {
-        destination: `/error?token=${token}`,
-        statusCode: 302,
-      },
-    };
+    return redirectError(error);
   }
 };
 
