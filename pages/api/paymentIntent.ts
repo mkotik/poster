@@ -16,6 +16,7 @@ const paymentIntent = async (totalPrice: number) => {
 };
 
 const getStripeIntent = async (req: NextApiRequest, res: NextApiResponse) => {
+  //test
   const { quantity } = req.body;
   const totalPrice = Number(
     (getPriceBreakdown(quantity).total * 100).toFixed(0)
