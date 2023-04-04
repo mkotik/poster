@@ -17,10 +17,10 @@ const paymentIntent = async (totalPrice: number) => {
 
 const getStripeIntent = async (req: NextApiRequest, res: NextApiResponse) => {
   const { quantity } = req.body;
-  const totalPrice = Number(
-    (getPriceBreakdown(quantity).total * 100).toFixed(0)
-  );
-  const intent = await paymentIntent(totalPrice);
+  // const totalPrice = Number(
+  //   (getPriceBreakdown(quantity).total * 100).toFixed(0)
+  // );
+  const intent = await paymentIntent(4700);
   res.status(200).json({ client_secret: intent.client_secret });
 };
 
