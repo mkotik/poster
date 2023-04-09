@@ -28,7 +28,7 @@ const Payment: NextPage<PaymentProps> = ({ clientSecret, sessionData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100 ">
-        <div className="pb-14">
+        <div className="min-h-screen pb-14">
           <CartSummary className="mb-2" quantity={sessionData.quantity} />
           <Elements
             stripe={stripePromise}

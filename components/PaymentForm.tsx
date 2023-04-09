@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { SessionData } from "../types";
+import { Base64 } from "js-base64";
+import { InfinitySpin } from "react-loader-spinner";
 
 type PaymentFormProps = {
   clientSecret: string;
@@ -26,6 +28,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
     zipCode,
     state,
   } = sessionData;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
   const stripe = useStripe();
@@ -33,6 +36,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!stripe || !elements) return;
 
     try {
@@ -74,11 +78,19 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       });
       console.log(paymentIntent);
       if (!paymentIntent) throw Error("payment intent creation unsuccessful");
+
+      if (paymentIntent.status === "succeeded") {
+        // const token = createJWT(paymentIntent);
+        const token = Base64.encode(JSON.stringify(paymentIntent));
+        console.log(token);
+        router.push(`/confirmation?token=${token}`);
+      }
       // use webhook to handle post payment events https://stripe.com/docs/payments/quickstart?client=next&lang=node
       // const res = await axios.post("/api/submitPayment", { paymentIntent });
     } catch (err) {
       console.log(err);
     }
+    setIsLoading(false);
   };
   const handleBack = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -86,23 +98,30 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <div className="flex justify-between mt-6">
-        <button
-          onClick={handleBack}
-          className="px-3 py-2 transition rounded hover:bg-slate-300"
-        >
-          Back
-        </button>
-        <button
-          className="px-3 py-2 transition bg-green-300 rounded hover:bg-green-400"
-          type="submit"
-        >
-          Continue to Shipping
-        </button>
-      </div>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <CardElement />
+        <div className="flex justify-between mt-6">
+          <button
+            onClick={handleBack}
+            className="px-3 py-2 transition rounded hover:bg-slate-300"
+          >
+            Back
+          </button>
+          <button
+            className="px-3 py-2 transition bg-green-300 rounded hover:bg-green-400"
+            type="submit"
+          >
+            Continue to Shipping
+          </button>
+        </div>
+      </form>
+      {isLoading && (
+        <div className="flex justify-center">
+          <InfinitySpin />
+        </div>
+      )}
+    </>
   );
 };
 

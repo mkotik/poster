@@ -10,7 +10,9 @@ async function setCookie(req: NextApiRequest, res: NextApiResponse) {
       expires: expiresDate,
     });
     res.setHeader("Set-Cookie", cookie);
-    res.status(200).json({ message: "cookie set successfully" });
+    setTimeout(() => {
+      res.status(200).json({ message: "cookie set successfully" });
+    }, 1000);
   } else {
     res.status(405).json({ message: "Method not allowed." });
   }

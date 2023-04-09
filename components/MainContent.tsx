@@ -4,16 +4,20 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { getPriceBreakdown } from "../utils/utils";
+import { InfinitySpin } from "react-loader-spinner";
 
 const MainContent: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleNext = async () => {
+    setIsLoading(true);
     await axios.post("/api/setCookie", { quantity });
     router.push({
       pathname: "/checkout-information",
     });
+    setIsLoading(false);
   };
   return (
     <div className="flex items-center justify-center py-20">
@@ -40,6 +44,11 @@ const MainContent: React.FC = () => {
               ).subTotal.toFixed(2)} - Buy Now`}</p>
             </button>
           </div>
+          {isLoading && (
+            <div className="absolute flex justify-center top-2/4 left-2/4">
+              <InfinitySpin width="200" color="#4fa94d" />
+            </div>
+          )}
         </div>
       </div>
     </div>
