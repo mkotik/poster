@@ -54,7 +54,7 @@ export const getServerSideProps = async (
   const quantity = cookie.quantity;
   try {
     const res = await axios.post(
-      `${process.env.NEXT_SERVER_BASE_URL}/api/paymentIntent`,
+      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/paymentIntent`,
       { quantity }
     );
 
