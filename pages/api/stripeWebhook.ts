@@ -39,7 +39,7 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
         table: {
           data: [
             {
-              item: "React Developer Roadmap Poster",
+              item: clientData.description,
               description: '24" x 36"',
               price: `$${(clientData.amount / 100).toFixed(2)}`,
             },

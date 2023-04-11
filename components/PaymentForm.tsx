@@ -69,12 +69,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             phone: phoneNumber,
             name: `${firstName} ${lastName}`,
           },
-          // metadata: {
-          //   // quantity,
-          //   // specialNotes,
-          //   name: "marat",
-          //   quantity: 2,
-          // },
         },
         receipt_email: email,
         return_url: "https://poster-delta.vercel.app/",
