@@ -41,7 +41,7 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
             {
               item: "React Developer Roadmap Poster",
               description: '24" x 36"',
-              price: (clientData.amount / 100).toFixed(2),
+              price: `$${(clientData.amount / 100).toFixed(2)}`,
             },
           ],
         },
@@ -58,8 +58,18 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
       html: mail,
     };
 
+    const failResponse = {
+      from: "mkotik97@gmail.com",
+      to: clientData.receipt_email,
+      subject: "React Roadmap - Payment Failed",
+      text: "Your payment failed for the React Developer Roadmap. Please try again or contact mkotik97@gmail.com for help. ",
+    };
+
+    const messageToBeSent =
+      clientData.status === "succeeded" ? failResponse : message;
+
     transporter
-      .sendMail(message)
+      .sendMail(messageToBeSent)
       .then(() => {
         return res.status(201).json({
           msg: "you should receive an email",
