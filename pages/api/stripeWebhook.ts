@@ -4,6 +4,8 @@ const Mailgen = require("mailgen");
 
 async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
+    console.log(req);
+    console.log(Object.keys(req));
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -51,6 +53,8 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
       .then(() => {
         return res.status(201).json({
           msg: "you should receive an email",
+          req,
+          keys: Object.keys(req),
         });
       })
       .catch((error: Error) => {
