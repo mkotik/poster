@@ -33,7 +33,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
-
+  console.log(
+    address1,
+    address2,
+    city,
+    country,
+    email,
+    firstName,
+    lastName,
+    phoneNumber,
+    quantity,
+    specialNotes,
+    zipCode,
+    state
+  );
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -56,13 +69,15 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             phone: phoneNumber,
             name: `${firstName} ${lastName}`,
           },
-          metadata: {
-            quantity,
-            specialNotes,
-          },
+          // metadata: {
+          //   // quantity,
+          //   // specialNotes,
+          //   name: "marat",
+          //   quantity: 2,
+          // },
         },
         receipt_email: email,
-        return_url: "http://localhost:3000/",
+        return_url: "https://poster-delta.vercel.app/",
         shipping: {
           address: {
             city,

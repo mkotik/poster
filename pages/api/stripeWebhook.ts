@@ -66,7 +66,7 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
     };
 
     const messageToBeSent =
-      clientData.status === "succeeded" ? failResponse : message;
+      clientData.status === "succeeded" ? message : failResponse;
 
     transporter
       .sendMail(messageToBeSent)
