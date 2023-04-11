@@ -4,13 +4,18 @@ const Mailgen = require("mailgen");
 
 async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
+    const clientData = req.body.data.object;
     console.log(Object.keys(req.body.data));
     console.log(Object.keys(req.body.data.object));
     console.log(req.body.data.object);
-    console.log(req.body.data.object.amount);
-    console.log(req.body.data.object.receipt_email);
-    console.log(req.body.data.object.shipping.name);
-
+    console.log(req.body.data.object.amount); //good
+    console.log(req.body.data.object.receipt_email); //good
+    console.log(req.body.data.object.shipping.name); //good
+    console.log(clientData.status);
+    console.log(clientData.metaData);
+    console.log(clientData.status === "succeeded");
+    // quantity
+    // status
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -29,14 +34,14 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
 
     const response = {
       body: {
-        name: "Jane",
+        name: clientData.shipping.name,
         intro: "Your React Developer Roadmap is on its way!",
         table: {
           data: [
             {
               item: "React Developer Roadmap Poster",
               description: '24" x 36"',
-              price: "$19.99",
+              price: (clientData.amount / 100).toFixed(2),
             },
           ],
         },
@@ -48,7 +53,7 @@ async function stripeWebhook(req: NextApiRequest, res: NextApiResponse) {
 
     const message = {
       from: "mkotik97@gmail.com",
-      to: "mkotik97@gmail.com",
+      to: clientData.receipt_email,
       subject: "React Roadmap Order",
       html: mail,
     };
