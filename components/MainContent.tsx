@@ -17,7 +17,6 @@ const MainContent: React.FC = () => {
     router.push({
       pathname: "/checkout-information",
     });
-    setIsLoading(false);
   };
   return (
     <div className="flex items-center justify-center py-20">

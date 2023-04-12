@@ -99,7 +99,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
     } catch (err) {
       console.log(err);
     }
-    setIsLoading(false);
   };
   const handleBack = (e: React.SyntheticEvent) => {
     e.preventDefault();

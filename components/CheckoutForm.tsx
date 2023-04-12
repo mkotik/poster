@@ -4,6 +4,10 @@ import states from "../utils/states";
 import axios from "axios";
 import { FormData } from "../types";
 import { InfinitySpin } from "react-loader-spinner";
+import CheckoutFormSchema from "../checkoutFormValidationSchema";
+import * as Yup from "yup";
+import TextField from "./TextField";
+import SelectField from "./SelectField";
 
 type CheckoutFormProps = {
   className?: string;
@@ -12,30 +16,36 @@ type CheckoutFormProps = {
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    address1: "",
-    address2: "",
-    city: "",
-    zipCode: "",
-    phoneNumber: "",
-    specialNotes: "",
-    country: "",
-    state: "",
-  });
+  const [errors, setErrors] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>({});
 
   const router = useRouter();
   const handleSubmit = async (e: React.SyntheticEvent) => {
-    setIsLoading(true);
     e.preventDefault();
-    await axios.post("/api/setCookie", {
-      ...formData,
-      quantity,
-    });
-    setIsLoading(false);
-    router.push("/checkout-payment");
+    console.log(formData);
+    try {
+      setErrors({});
+      await CheckoutFormSchema.validate(formData, { abortEarly: false });
+      setIsLoading(true);
+      await axios.post("/api/setCookie", {
+        ...formData,
+        quantity,
+      });
+      router.push("/checkout-payment");
+    } catch (err) {
+      console.log(err);
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = err.inner.reduce(
+          (acc: { [key: string]: string }, error) => {
+            if (error.path) acc[error.path] = error.message;
+            console.log(acc);
+            return acc;
+          },
+          {}
+        );
+        setErrors(errorMessages);
+      }
+    }
   };
 
   const handleBack = (e: React.SyntheticEvent) => {
@@ -43,13 +53,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
     router.push("/");
   };
 
-  const handleChange = (
+  const handleChange = async (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const name = e.target.name;
     const value = e.target.value;
     const newFormData = { ...formData, [name]: value };
     setFormData(newFormData);
+    setErrors({ ...errors, [name]: "" });
   };
 
   return (
@@ -58,110 +69,110 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
         {isLoading && <InfinitySpin width="200" color="#4fa94d" />}
       </div>
       <form onSubmit={handleSubmit} className={className}>
-        <label className="flex flex-col mb-4">
-          Contact Information
-          <input
-            placeholder="Email"
-            name="email"
-            onChange={handleChange}
-            value={formData.email}
-          />
-        </label>
-        <label className="flex flex-col mb-4">
+        <TextField
+          label="Contact Information"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+          placeholder="Email"
+          name="email"
+          className="relative flex flex-col pb-4"
+        />
+        <label className="flex flex-col ">
           Shipping Address
-          <div className="flex justify-between mb-2">
-            <input
+          <div className="flex justify-between mb-1">
+            <TextField
+              className="relative flex flex-col flex-1 w-full pb-4 mr-1"
               placeholder="First Name"
-              className="flex-1 mr-1"
               name="firstName"
               onChange={handleChange}
               value={formData.firstName}
+              error={errors.firstName}
             />
-            <input
+            <TextField
+              error={errors.lastName}
+              className="relative flex flex-col flex-1 w-full pb-4 ml-1"
               placeholder="Last Name"
-              className="flex-1 ml-1"
               name="lastName"
               onChange={handleChange}
               value={formData.lastName}
             />
           </div>
-          <input
+          <TextField
+            error={errors.address1}
+            className="relative flex flex-col flex-1 w-full pb-4 mb-1"
+            onChange={handleChange}
             placeholder="Address"
-            className="mb-2"
             name="address1"
             value={formData.address1}
-            onChange={handleChange}
           />
-          <input
+          <TextField
+            error={errors.address2}
+            className="relative flex flex-col flex-1 w-full pb-4 mb-1"
             placeholder="Address, suite, etc. (optional)"
-            className="mb-2"
             name="address2"
             value={formData.address2}
             onChange={handleChange}
           />
-          <input
+          <TextField
+            error={errors.city}
+            className="relative flex flex-col flex-1 w-full pb-4 mb-1"
             placeholder="City"
-            className="mb-2 border"
             name="city"
             value={formData.city}
             onChange={handleChange}
           />
           <div className="flex">
-            <select
-              className="flex-1 mr-1"
+            <SelectField
+              error={errors.country}
+              className="relative flex flex-col flex-1 w-full h-12 pb-4 mb-1"
               onChange={handleChange}
               name="country"
               value={formData.country}
-            >
-              <option value="" disabled>
-                -- Country --
-              </option>
-              <option key={1} value="US">
-                United States
-              </option>
-            </select>
-            <select
-              className="flex-1 mx-1"
+              options={[
+                { text: "-- Country --", value: "", key: "0", disabled: true },
+                { text: "United States", value: "US", key: "1" },
+              ]}
+            />
+            <SelectField
+              error={errors.state}
+              className="relative flex flex-col flex-1 w-full h-12 pb-4 mx-2 mb-1"
               onChange={handleChange}
               name="state"
               value={formData.state}
-            >
-              <option value="" disabled>
-                -- State --
-              </option>
-              {states.map((state) => {
-                return (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                );
-              })}
-            </select>
-            <input
+              options={states.map((state) => ({
+                text: state,
+                key: state,
+                value: state,
+              }))}
+            />
+            <TextField
+              error={errors.zipCode}
+              className="relative flex flex-col flex-1 w-full pb-4 mb-1"
               placeholder="ZIP Code"
-              className="flex-1 ml-1"
               name="zipCode"
               value={formData.zipCode}
               onChange={handleChange}
             />
           </div>
-          <input
+          <TextField
+            error={errors.phoneNumber}
+            className="relative flex flex-col flex-1 w-full pb-4 mb-0"
             placeholder="Phone Number (optional)"
-            className="mt-2 mb-2"
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
           />
         </label>
-        <label className="flex flex-col mb-4">
-          Special Notes:
-          <input
-            placeholder="Notes (optional)"
-            name="specialNotes"
-            value={formData.specialNotes}
-            onChange={handleChange}
-          />
-        </label>
+        <TextField
+          label="Special Notes:"
+          error={errors.specialNotes}
+          className="relative flex flex-col flex-1 w-full pb-4 mb-2"
+          placeholder="Notes (optional)"
+          name="specialNotes"
+          value={formData.specialNotes}
+          onChange={handleChange}
+        />
 
         <div className="flex justify-between">
           <button

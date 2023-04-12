@@ -83,4 +83,5 @@ select {
 
 svg[data-testid="infinity-spin"] {
   position: absolute;
+  z-index: 10;
 }
