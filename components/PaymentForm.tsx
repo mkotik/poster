@@ -76,7 +76,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           address: {
             city,
             country,
-            line1: address1,
+            line1: address1!,
             line2: address2,
             postal_code: zipCode,
             state,

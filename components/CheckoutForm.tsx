@@ -14,10 +14,23 @@ type CheckoutFormProps = {
   quantity: number;
 };
 
+const initialFormState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  address1: "",
+  address2: "",
+  country: "",
+  city: "",
+  zipCode: "",
+  phoneNumber: "",
+  specialNotes: "",
+  state: "",
+};
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormData>({});
-  const [formData, setFormData] = useState<FormData>({});
+  const [formData, setFormData] = useState<FormData>(initialFormState);
 
   const router = useRouter();
   const handleSubmit = async (e: React.SyntheticEvent) => {
