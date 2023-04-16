@@ -15,7 +15,10 @@ const TextField: React.FC<TextFieldProps> = ({
     <label className={className}>
       {/* Contact Information */}
       {label}
-      <input {...props} className={error ? "border-red-500" : ""} />
+      <input
+        {...props}
+        className={error ? "border-red-500 w-full" : "w-full"}
+      />
       {error && (
         <p className="absolute bottom-0 pl-1 text-xs text-red-500 pl-[1px]">
           {error}

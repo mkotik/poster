@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className=" bg-gray-700 w-full h-[6vh] flex justify-start items-center p-5 absolute bottom-0 left-0">
+    <div className=" bg-gray-700 w-full h-[6vh] flex justify-start items-center p-5 fixed bottom-0 left-0">
       <Image
         src="/github-mark-white.png"
         width={20}
