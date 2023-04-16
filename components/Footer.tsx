@@ -14,7 +14,7 @@ const Footer = () => {
       />
       <Link
         target="_blank"
-        href="https://github.com/mkotik"
+        href="https://github.com/mkotik/poster"
         className="ml-2 text-gray-100 text-gray-light"
       >
         github.com/mkotik
