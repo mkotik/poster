@@ -32,7 +32,10 @@ const Payment: NextPage<PaymentProps> = ({ clientSecret, sessionData }) => {
           <CartSummary className="mb-2" quantity={sessionData.quantity} />
           <Elements
             stripe={stripePromise}
-            options={{ clientSecret, loader: "always" }}
+            options={{
+              clientSecret,
+              loader: "always",
+            }}
           >
             <PaymentForm
               clientSecret={clientSecret}
