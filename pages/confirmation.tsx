@@ -2,13 +2,22 @@ import Head from "next/head";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { Base64 } from "js-base64";
 import { PaymentIntent } from "@stripe/stripe-js";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { InfinitySpin } from "react-loader-spinner";
 import Footer from "../components/Footer";
 
 type ConfirmationProps = {
   data: PaymentIntent;
 };
 const Confirmation: NextPage<ConfirmationProps> = ({ data }) => {
-  console.log(data);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const handleReturn = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    router.push("/");
+  };
   return (
     <>
       <Head>
@@ -31,6 +40,17 @@ const Confirmation: NextPage<ConfirmationProps> = ({ data }) => {
             {` Order confirmation has been sent to ${data.receipt_email}`}
           </p>
           <p className="mt-16 font-medium text-center ">Happy Coding!</p>
+          <p
+            onClick={handleReturn}
+            className="mt-4 text-sm text-center hover:text-blue-500 hover:cursor-pointer"
+          >
+            Return to Main Page
+          </p>
+          {isLoading && (
+            <div className="flex justify-center">
+              <InfinitySpin />
+            </div>
+          )}
         </div>
         <Footer />
       </main>
