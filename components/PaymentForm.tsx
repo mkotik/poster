@@ -4,6 +4,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { SessionData } from "../types";
 import { Base64 } from "js-base64";
 import { InfinitySpin } from "react-loader-spinner";
+import { createJWT } from "../utils/utils";
 
 type PaymentFormProps = {
   clientSecret: string;
@@ -93,11 +94,15 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         const token = Base64.encode(JSON.stringify(paymentIntent));
         console.log(token);
         router.push(`/confirmation?token=${token}`);
+      } else {
+        router.push("/error");
       }
       // use webhook to handle post payment events https://stripe.com/docs/payments/quickstart?client=next&lang=node
       // const res = await axios.post("/api/submitPayment", { paymentIntent });
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
+      const token = createJWT(err);
+      router.push(`/error?token=${token}`);
     }
   };
   const handleBack = (e: React.SyntheticEvent) => {

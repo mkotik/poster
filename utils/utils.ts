@@ -12,8 +12,14 @@ export const readJWT = (token: string) => {
 };
 
 export const createJWT = (payload: Record<string, any>) => {
-  const token = jwt.sign(payload, process.env.NEXT_PUBLIC_JWT_SECRET!);
-  return token;
+  console.log(process.env);
+  try {
+    const token = jwt.sign(payload, process.env.NEXT_PUBLIC_JWT_SECRET!);
+    return token;
+  } catch (error) {
+    console.error("Error creating JWT:", error);
+    return null;
+  }
 };
 
 /**
