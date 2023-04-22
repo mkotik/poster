@@ -15,7 +15,7 @@ const Confirmation: NextPage<ConfirmationProps> = ({ data }) => {
         <title>React Developer Roadmap - Confirmation</title>
         <meta
           name="description"
-          content="Perfect for the self-taught React & Javascript Developer"
+          content="Your React Developer Roadmap order has been placed"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

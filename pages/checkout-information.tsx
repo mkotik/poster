@@ -9,13 +9,11 @@ const Order: NextPage<{ quantity: number }> = ({ quantity }) => {
   return (
     <>
       <Head>
-        <title>React Developer Roadmap</title>
+        <title>React Developer Roadmap - Checkout</title>
         <meta
           name="description"
-          content="Perfect for the self-taught React & Javascript Developer"
+          content="Please fill out your shipping information"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100">
         <div className="pb-14">
