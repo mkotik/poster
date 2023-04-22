@@ -102,6 +102,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   };
   const handleBack = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     router.push("/checkout-information");
   };
 

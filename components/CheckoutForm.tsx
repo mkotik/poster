@@ -63,6 +63,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ className, quantity }) => {
 
   const handleBack = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     router.push("/");
   };
 
