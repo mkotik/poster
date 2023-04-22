@@ -17,8 +17,6 @@ const Confirmation: NextPage<ConfirmationProps> = ({ data }) => {
           name="description"
           content="Your React Developer Roadmap order has been placed"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col m-auto  w-full sm:w-[500px] px-2  bg-stone-100 ">
         <div className="min-h-screen pb-14">
